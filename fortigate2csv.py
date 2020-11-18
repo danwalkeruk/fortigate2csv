@@ -135,18 +135,14 @@ def build_csv(headers, rows):
                         row_data.append('')
                     else:
                         subitems = []
-                        if header == 'ipv4_addresses':
-                            # parse list, extract ip mask for each item within the field
+                        if header == 'ipv4_addresses': # parse list, extract ip mask for each item within the field
                             for x in row[header]:
                                 subitems.append(f"{x['ip']}/{x['cidr_netmask']}")
-                            # join with a space, can't use comma due to csv
-                            row_data.append(' '.join(map(str, subitems))) 
-                        else:
-                            # parse list, extract q_origin_key for each item within the field
+                        else: # parse list, extract q_origin_key for each item within the field
                             for x in row[header]:
                                 subitems.append(x['q_origin_key'])
-                            # join with a space, can't use comma due to csv
-                            row_data.append(' '.join(map(str, subitems))) 
+                        # join with a space, can't use comma due to csv
+                        row_data.append(' '.join(map(str, subitems))) 
                 else:
                     # this field is just a string/int, simply add it to the row
                     if type(row[header]) == str:
