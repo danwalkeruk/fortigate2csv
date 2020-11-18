@@ -91,6 +91,10 @@ def main():
     f.get(f'https://{args.firewall}/logout', verify=False, timeout=10)
     
     # format the data
+    if 'results' not in data:
+        print('Firewall returned no results')
+        sys.exit(1)
+    
     csv_data = build_csv(headers, data['results'])
 
     # display or save
