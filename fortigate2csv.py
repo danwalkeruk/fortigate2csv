@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 # author    dan walker <code@danwalker.com>
-# date      2020-11-12
+# created   2020-11-12
+# updated   2020-11-23
 # url       github.com/danwalkeruk/fortigate2csv
 
 import argparse
@@ -163,22 +164,32 @@ def f_login(host,user,password,vdom):
     Return a requests session after authenticating
 
     :param host: IP/FQDN of firewall
-    :param user: FortiGate user
-    :param password: FortiGate password
+    :param user: FortiGate username
+    :param password: FortiGate user password
     :param vdom: FortiGate VDOM
 
     :return: authenticated session or failure
     """
+    # send the initial authentication request
     session = requests.session()
-    session.post(f'https://{host}/logincheck',
+    p = session.post(f'https://{host}/logincheck',
         data=f'username={user}&secretkey={password}',
         verify=False,
         timeout=10)
 
-    # get CSRF token from cookies for use in headers
+    # extract CSRF token from cookies for use in headers
     for cookie in session.cookies:
         if cookie.name == 'ccsrftoken':
+            print('Received CSRF token')
             session.headers.update({'X-CSRFTOKEN': cookie.value[1:-1]})
+
+    # if there is a login banner, we need to 'accept' it
+    if 'logindisclaimer' in p.text:
+        print('Accepting login banner')
+        session.post(f'https://{host}/logindisclaimer',
+            data=f'confirm=1&redir=/ng',
+            verify=False,
+            timeout=10)
 
     # check login was successful
     try:

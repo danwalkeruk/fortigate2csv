@@ -1,8 +1,8 @@
 # FortiGate to CSV Converter
 
-If you use FortiGate, there's no easy way to export a CSV (with the exception of using FortiManager), so this script can be used to fetch JSON data over the REST API and export a CSV to a file.
+FortiGate web UI has no easy way to export a CSV, unless you also use FortiManager, so this script can be used to fetch JSON data over the REST API and export it as CSV.
 
-Some sensible items and headers are included, but it should be easy to modify and extend as required.
+Some common objects are included, but it should be easy to modify and extend to your requirements.
 
 ## Usage
 
