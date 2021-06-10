@@ -2,7 +2,7 @@
 
 # author    dan walker <code@danwalker.com>
 # created   2020-11-12
-# updated   2021-06-03
+# updated   2021-06-10
 # url       github.com/danwalkeruk/fortigate2csv
 
 import argparse
@@ -17,7 +17,7 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 # items
-item_types = ['interface', 'policy', 'snat', 'address', 'service', 'dnat', 'pool']
+item_types = ['interface', 'policy', 'snat', 'address', 'service', 'dnat', 'pool', 'addrgrp']
 
 def main():
     # build a parser, set arguments, parse the input
@@ -91,6 +91,11 @@ def main():
         data = f.get(f'{base_url}api/v2/cmdb/firewall/address/?vdom={args.vdom}').json()
         headers = ['name', 'type', 'subnet', 'fqdn', 'associated-interface', 'visibility', 
             'allow-routing', 'comment']
+
+    # address groups
+    elif args.item == 'addrgrp':
+        data = f.get(f'{base_url}api/v2/cmdb/firewall/addrgrp/?vdom={args.vdom}').json()
+        headers = ['name', 'member', 'comment', 'visibility', 'allow-routing']
 
     # pools
     elif args.item == 'pool':

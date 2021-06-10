@@ -11,7 +11,7 @@ Command line arguments
 * `-f` - Firewall IP/FQDN
 * `-u` - Username
 * `-v` - VDOM
-* `-i` - Items *(interface, policy, snat, address, service, dnat, pool)*
+* `-i` - Items *(interface, policy, snat, address, service, dnat, pool, addrgrp)*
 * `-o` - CSV Outfile *(optional)*
 
 ### Example
